@@ -1,0 +1,27 @@
+html, body {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+	background: var(--clr-ui1);
+	color: var(--clr-ui2);
+	/* cursor: url("../img/cursor.png") 15 15, auto; */
+}
+
+* {
+	font-family: "Noto Sans";
+	font-weight: 100;
+	box-sizing: border-box;
+	pointer-events: none;
+}
+
+div {display: flex;}
+
+path {vector-effect: non-scaling-stroke !important;}
