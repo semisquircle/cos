@@ -25,7 +25,10 @@ function changeSquircle() {
 }
 
 listen("arduino-update", function(data) {
-	[p, y, r] = data.payload.split(",").map(parseFloat);
+	let obj = JSON.parse(data.payload);
+	p = -obj.pitch;
+	y = -obj.yaw;
+	r = obj.roll;
 
 	if (isCalibrated) {
 		let numRows = currentKeyboard.length;

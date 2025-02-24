@@ -5,24 +5,22 @@ float yaw = 0.0;
 float pitch = 0.0;
 float roll = 0.0;
 
-void setup()
-{
+void setup() {
   size(600, 500, P3D);
 
   // if you have only ONE serial port active
-  myPort = new Serial(this, Serial.list()[0], 9600); // if you have only ONE serial port active
+  // myPort = new Serial(this, Serial.list()[0], 9600); // if you have only ONE serial port active
 
   // if you know the serial port name
   //myPort = new Serial(this, "COM5:", 9600);                    // Windows
   //myPort = new Serial(this, "/dev/ttyACM0", 9600);             // Linux
-  //myPort = new Serial(this, "/dev/cu.usbmodem1217321", 9600);  // Mac
+  myPort = new Serial(this, "/dev/cu.usbmodem142301", 115200);  // Mac
 
   textSize(16); // set text size
   textMode(SHAPE); // set text mode to shape
 }
 
-void draw()
-{
+void draw() {
   serialEvent();  // read and parse incoming serial message
   background(255); // set background to white
   lights();
@@ -55,19 +53,16 @@ void draw()
   println();
 }
 
-void serialEvent()
-{
+void serialEvent() {
   int newLine = 13; // new line character in ASCII
   String message;
   do {
     message = myPort.readStringUntil(newLine); // read from port until new line
     if (message != null) {
-      String[] list = split(trim(message), " ");
-      if (list.length >= 4 && list[0].equals("Orientation:")) {
-        yaw = float(list[1]); // convert to float yaw
-        pitch = float(list[2]); // convert to float pitch
-        roll = float(list[3]); // convert to float roll
-      }
+       JSONObject json = parseJSONObject(message);
+       yaw = json.getFloat("yaw");
+       pitch = json.getFloat("pitch");
+       roll = json.getFloat("roll");
     }
   } while (message != null);
 }
@@ -88,4 +83,3 @@ void drawArduino()
   translate(-20, 0, -180); // set position to other edge of Arduino box
   box(210, 20, 10); // draw other pin header as box
 }
-
