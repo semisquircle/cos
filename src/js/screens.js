@@ -4,10 +4,13 @@ function generateLangOptions() {
 		let keyboard = keyboards[o];
 		let iso = keyboard.iso;
 		let exonym = keyboard.exonym;
+		let endonym = keyboard.endonym;
+		let font = keyboard.font;
 		let btn = squircleBtn.clone();
 
 		btn.attr("data-iso", iso);
-		btn.find(".squircle-btn-label").html(exonym);
+		btn.find(".squircle-btn-label").append(`<div class="squircle-btn-exonym">${exonym}</div>`);
+		btn.find(".squircle-btn-label").append(`<div class="squircle-btn-endonym" style="font-family: ${font};">${endonym}</div>`);
 		$("#lang-option-container").append(btn);
 	}
 }

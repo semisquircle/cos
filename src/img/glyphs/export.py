@@ -6,22 +6,22 @@ import psMat
 
 LANGS = {
 	"eng": {
-		"font": "/Users/Shawn/Desktop/code/arduino/src/font/NotoSans/ttf/NotoSans-Light.ttf",
+		"font": "/Users/Shawn/Desktop/code/cos/src/font/NotoSans/ttf/NotoSans-Light.ttf",
 		"ranges": [range(0x0041, 0x005B), range(0x0061, 0x007B)],
-		"misc": "!.,?@()$#[]*+-"
+		"misc": "!.,?/\\:;@()$#[]*+-"
 	},
 	"gre": {
-		"font": "/Users/Shawn/Desktop/code/arduino/src/font/NotoSans/ttf/NotoSans-Light.ttf",
+		"font": "/Users/Shawn/Desktop/code/cos/src/font/NotoSans/ttf/NotoSans-Light.ttf",
 		"ranges": [range(0x03b1, 0x03c9), range(0x0391, 0x03a9)],
 		"misc": "!.,?@()€#[]*+-"
 	},
 	"heb": {
-		"font": "/Users/Shawn/Desktop/code/arduino/src/font/NotoSansHebrew/ttf/NotoSansHebrew-ExtraLight.ttf",
+		"font": "/Users/Shawn/Desktop/code/cos/src/font/NotoSansHebrew/ttf/NotoSansHebrew-ExtraLight.ttf",
 		"ranges": [range(0x05D0, 0x05EB)],
 		"misc": "!.,?@()₪#[]*+־"
 	},
 	"jpn": {
-		"font": "/Users/Shawn/Desktop/code/arduino/src/font/NotoSansJP/ttf/NotoSansJP-ExtraLight.ttf",
+		"font": "/Users/Shawn/Desktop/code/cos/src/font/NotoSansJP/ttf/NotoSansJP-ExtraLight.ttf",
 		"ranges": [range(0x3041, 0x3096), range(0x30a1, 0x30fa)],
 		"misc": "。、！？（）［］ー¥：〽@#※+-"
 	}
@@ -76,4 +76,4 @@ def export(lang):
 
 	print(f"Exported {len(chars)} characters.")
 
-export("jpn")
+export("eng")

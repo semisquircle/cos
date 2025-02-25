@@ -76,15 +76,16 @@
 #keyboard {
 	--bg: var(--clr-ui1);
 	--fc: var(--clr-ui2);
-	--char-spacing: calc(0.55 * var(--squircle-diagonal));
+	--char-spacing: calc(0.56 * var(--squircle-diagonal));
 	--bump: calc(0.1 * var(--squircle-diagonal));
 	/* --bump: 0; */
 	position: relative;
 	flex-direction: column;
-	align-items: center;
+	align-items: flex-start;
 }
 
-.squircle-row + .squircle-row {margin-top: calc(-1 * (var(--squircle-diagonal) / 3 - sqrt(2) * var(--squircle-spacing)));}
+.squircle-row + .squircle-row {margin-top: var(--squircle-spacing);}
+/* .squircle-row + .squircle-row {margin-top: calc(-1 * (var(--squircle-diagonal) / 3 - sqrt(2) * var(--squircle-spacing)));} */
 
 .squircle {
 	position: relative;

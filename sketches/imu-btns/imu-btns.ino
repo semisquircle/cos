@@ -2,6 +2,9 @@
 #include "NewMadgwick.h"
 #include <mLink.h>
 
+float gx, gy, gz, ax, ay, az;
+float gxOffset = 0, gyOffset = 0, gzOffset = 0;
+float pitch, yaw, roll;
 NewMadgwick filter;
 mLink mLink;
 
@@ -15,7 +18,35 @@ void setup() {
 		while (true);
 	}
 
-	mLink.init();	
+	filter.setSamplingRate(IMU.gyroscopeSampleRate());
+	filter.setGyroError(0.008 * DEG_TO_RAD);
+
+	mLink.init();
+
+	delay(1000);
+	calibrateGyro();
+}
+
+void calibrateGyro() {
+	Serial.println("Calibrating gyroscope...");
+
+	const int numSamples = 3000;
+	float sumX = 0, sumY = 0, sumZ = 0;
+
+	int actualSample = 0;
+	for (int i = 0; i < numSamples; i++) {
+		IMU.readGyroscope(gx, gy, gz);
+		sumX += gx;
+		sumY += gy;
+		sumZ += gz;
+		actualSample++;
+	}
+
+	gxOffset = sumX / actualSample;
+	gyOffset = sumY / actualSample;
+	gzOffset = sumZ / actualSample;
+
+	Serial.println("Finished calibration.");
 }
 
 String boolToString(bool value) {
@@ -23,13 +54,14 @@ String boolToString(bool value) {
 }
 
 void loop() {
-	float gx, gy, gz;
-	float ax, ay, az;
-	float pitch, yaw, roll;
-
 	if (IMU.gyroscopeAvailable() && IMU.accelerationAvailable()) {
 		IMU.readGyroscope(gx, gy, gz);
 		IMU.readAcceleration(ax, ay, az);
+
+		// Apply calibration
+		gx -= gxOffset;
+		gy -= gyOffset;
+		gz -= gzOffset;
 
 		// Degrees to radians
 		gx *= DEG_TO_RAD;
@@ -53,16 +85,23 @@ void loop() {
 		bool back = mLink.bPad_BackState(I2C_ADD);
 
 		String json =
-			"{\"pitch\":" + String(pitch) +
-			",\"yaw\":" + String(yaw) +
-			",\"roll\":" + String(roll) +
-			",\"up\":" + boolToString(up) +
-			",\"left\":" + boolToString(left) +
-			",\"right\":" + boolToString(right) +
-			",\"down\":" + boolToString(down) +
-			",\"select\":" + boolToString(select) +
-			",\"back\":" + boolToString(back) +
-			"}";
+		"{" +
+			"\"imu\":{" +
+				"\"pitch\":" + String(pitch) + "," +
+				"\"yaw\":" + String(yaw) + "," +
+				"\"roll\":" + String(roll) +
+			"}," +
+			"\"btns\":{" +
+				"\"dpad\":{" +
+					"\"left\":" + boolToString(left) + "," +
+					"\"up\":" + boolToString(up) + "," +
+					"\"right\":" + boolToString(right) + "," +
+					"\"down\":" + boolToString(down) +
+				"}," +
+				"\"select\":" + boolToString(select) + "," +
+				"\"back\":" + boolToString(back) +
+			"}" +
+		"}"
 		Serial.println(json);
 	}
 }

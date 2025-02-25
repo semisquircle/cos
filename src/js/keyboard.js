@@ -19,7 +19,7 @@ function generateKeyboard() {
 
 		for (let s = 0; s < row.length; s++) {
 			let squircle = row[s];
-			let squircleEl = getSvg("img/squircle-diagonal.svg");
+			let squircleEl = getSvg("img/squircles/systems/straight.svg");
 			squircleEl.attr("data-col", s);
 			squircleEl.attr("data-current-char-index", "0");
 

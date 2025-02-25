@@ -34,10 +34,10 @@ function getSvg(path) {
 	return foo;
 }
 
-var squircleStraightEl = getSvg("img/squircle-straight.svg");
+var squircleBtnBackEl = getSvg("img/squircles/outlines/straight.svg");
 var squircleBtn = $(`
 	<div class="squircle-btn">
-		${squircleStraightEl[0].outerHTML}
+		${squircleBtnBackEl[0].outerHTML}
 		<div class="squircle-btn-label"></div>
 	</div>
 `);

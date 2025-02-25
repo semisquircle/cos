@@ -1,5 +1,14 @@
 #include "NewMadgwick.h"
 
+void NewMadgwick::setSamplingRate(float rate) {
+	deltat = 1.0f / rate;
+}
+
+void NewMadgwick::setGyroError(float error) {
+	gyroMeasError = error;
+	beta = std::sqrt(3.0f / 4.0f) * gyroMeasError;
+}
+
 void NewMadgwick::update(float w_x, float w_y, float w_z, float a_x, float a_y, float a_z) {
 	// Local system variables
 	float norm; // vector norm
@@ -68,7 +77,7 @@ void NewMadgwick::update(float w_x, float w_y, float w_z, float a_x, float a_y, 
 }
 
 void NewMadgwick::getEulerAngles(float &pitch, float &yaw, float &roll) {
-	pitch = -1.0f * std::asin(2.0f * SEq_2 * SEq_4 + 2.0f * SEq_1 * SEq_3);
-	yaw = std::atan2(2.0f * SEq_2 * SEq_3 - 2.0f * SEq_1 * SEq_4, 2.0f * std::pow(SEq_1, 2.0f) + 2.0f * std::pow(SEq_2, 2.0f) - 1.0f);
-	roll = std::atan2(2.0f * SEq_3 * SEq_4 - 2.0f * SEq_1 * SEq_2, 2.0f * std::pow(SEq_1, 2.0f) + 2.0f * std::pow(SEq_4, 2.0f) - 1.0f);
+	pitch = std::asin(-2.0f * (SEq_2 * SEq_4 - SEq_1 * SEq_3));
+	yaw = std::atan2(SEq_2 * SEq_3 + SEq_1 * SEq_4, 0.5f - SEq_3 * SEq_3 - SEq_4 * SEq_4);
+	roll = std::atan2(SEq_1 * SEq_2 + SEq_3 * SEq_4, 0.5f - SEq_2 * SEq_2 - SEq_3 * SEq_3);
 }

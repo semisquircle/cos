@@ -21,7 +21,7 @@
 
 .squircle-btn {
 	--dimension: 14vw;
-	--font-size: calc(var(--dimension) / 7);
+	--font-size: calc(0.17 * var(--dimension));
 	position: relative;
 	justify-content: center;
 	align-items: center;
@@ -36,6 +36,7 @@
 
 .squircle-btn-label {
 	position: absolute;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	text-align: center;
@@ -44,6 +45,8 @@
 	font-size: var(--font-size);
 	font-weight: 200;
 }
+
+.squircle-btn-endonym {font-size: 0.6em;}
 
 .squircle-btn svg {
 	width: 100%;
