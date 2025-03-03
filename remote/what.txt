@@ -1,0 +1,21 @@
+Gyroscope:
+- Range: ±2000 dps
+- Resolution: 70 mdps (0.07 dps)
+- Sample rate: 99.84 Hz
+- Sensitivity: 16.384
+
+Accelerometer:
+- Range: ±4 g
+- Resolution: 0.122 mg (0.000122 g)
+- Sample rate: 99.84 Hz
+- Sensitivity: 8192
+
+Magnetometer:
+- Range: ±1300 uT
+- Resolution: 0.3 uT
+- Sample rate: 10 Hz
+
+Pittsburgh's magnetic field: 51,574.5 nT (51.5745 uT)
+Pittsburgh's magnetic declination: -9° 16' (-9.27°)
+
+Genius: https://forum.arduino.cc/t/ble-sense-rev2-imu-magnetometer-sensor-fusion-values-drift-what-is-the-correct-axis-orientation-for-bmi270-bmm150/1290027

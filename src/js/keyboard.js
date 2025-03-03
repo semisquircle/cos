@@ -25,7 +25,7 @@ function generateKeyboard() {
 
 			for (let d = 0; d < squircle.length; d++) {
 				let dir = squircle[d];
-				let dpadDir = Object.keys(Buttons.dpad)[d];
+				let dpadDir = dirNames[d];
 				let quadEl = $(`<div class="squircle-quad" data-dir="${dpadDir}"></div>`);
 
 				for (let c = 0; c < dir.length; c++) {

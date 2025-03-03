@@ -65,7 +65,6 @@ $("#port-input-container").on("click", ".squircle-btn", function() {
 		port_name: currentPort,
 		baud_rate: 115200
 	});
-	// invoke("read_joycon");
 
 	generateKeyboard();
 	changeScreen("calib");

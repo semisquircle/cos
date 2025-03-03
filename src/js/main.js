@@ -18,6 +18,8 @@ var totalRows = 0;
 var totalCols = 0;
 var currentSquircle = {row: 0, col: 0};
 
+const dirNames = ["left", "up", "right", "down"];
+
 
 
 function getSvg(path) {

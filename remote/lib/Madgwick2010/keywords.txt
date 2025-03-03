@@ -1,0 +1,26 @@
+#######################################
+# Syntax Coloring Map For Madgwick2010
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+Madgwick2010	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+setSamplingRate KEYWORD2
+setGyroMeasError KEYWORD2
+setGyroDriftError KEYWORD2
+updateIMU KEYWORD2
+updateMARG KEYWORD2
+getQuaternions KEYWORD2
+getEulerAngles KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
