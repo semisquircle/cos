@@ -1,0 +1,24 @@
+#######################################
+# Syntax Coloring Map
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+MalaysianMadgwick	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+updateIMU	KEYWORD2
+updateMARG	KEYWORD2
+initQuat	KEYWORD2
+deltatUpdate	KEYWORD2
+getQuaternions	KEYWORD2
+getEulerAngles	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################

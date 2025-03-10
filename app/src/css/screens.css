@@ -1,0 +1,233 @@
+.screen {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	transition: all 0.5s;
+	pointer-events: none;
+}
+.current-screen {
+	opacity: 1;
+	pointer-events: all;
+}
+
+.screen-title {
+	--font-size: 6vw;
+	font-size: var(--font-size);
+	user-select: none;
+}
+
+.squircle-btn {
+	--dimension: 14vw;
+	--font-size: calc(0.17 * var(--dimension));
+	position: relative;
+	justify-content: center;
+	align-items: center;
+	width: var(--dimension);
+	height: var(--dimension);
+	cursor: pointer;
+	pointer-events: none;
+}
+.squircle-btn, .squircle-btn * {transition: all 0.1s;}
+.squircle-btn + .squircle-btn {margin-left: 1.5vw;}
+.squircle-btn:hover {transform: scale(1.05);}
+.squircle-btn:hover path {fill: var(--clr-ui3) !important;}
+
+.squircle-btn-label {
+	position: absolute;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	width: 100%;
+	height: 100%;
+	font-size: var(--font-size);
+	font-weight: 200;
+}
+
+.squircle-btn-endonym {font-size: 0.6em;}
+
+.squircle-btn svg {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+.squircle-btn path {
+	fill: var(--clr-ui1) !important;
+	stroke: var(--clr-ui2) !important;
+	stroke-width: var(--border-width) !important;
+}
+.current-screen .squircle-btn path {pointer-events: all;}
+
+
+
+/* Languages */
+#lang-screen {
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#lang-option-container {margin-top: 7vw;}
+
+
+
+/* Orientations */
+#orient-screen {
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#orient-option-container {margin-top: 7vw;}
+
+
+
+/* BLE */
+#ble-screen {
+	--device-width: 45vw;
+	--device-height: 5.5vw;
+	--device-spacing: 1vw;
+	--device-count: 3;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#ble-devices-container {
+	flex-direction: column;
+	font-size: 2.3vw;
+	margin-top: 7vw;
+}
+
+#ble-devices-list {
+	flex-direction: column;
+	width: var(--device-width);
+	height: calc(var(--device-count) * var(--device-height) + (var(--device-count) - 1) * var(--device-spacing));
+}
+
+#ble-devices-label-container {
+	justify-content: space-between;
+	align-items: center;
+}
+
+#ble-devices-loader {
+	--pulse-distance: 1vw;
+	width: 1vw;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background: var(--clr-ui2);
+	box-shadow: 0 0 0 0 var(--clr-ui2);
+	animation: loader-pulse 1s infinite;
+}
+@keyframes loader-pulse {
+	100% {box-shadow: 0 0 0 var(--pulse-distance) var(--clr-ui1)}
+}
+
+.ble-device {
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	height: var(--device-height);
+	font-weight: 200;
+	padding: 0 0.7em;
+	margin-top: var(--device-spacing);
+	background: var(--clr-ui1);
+	color: var(--clr-ui2);
+	border: var(--border-width) solid var(--clr-ui2);
+	border-radius: 1vw;
+	cursor: pointer;
+	transition: all 0.1s;
+}
+
+.ble-device-connection-container {
+	position: relative;
+	align-items: center;
+	font-size: 0.65em;
+}
+.ble-device-connection-container * {
+	position: absolute;
+	right: 0;
+	opacity: 0;
+	white-space: nowrap;
+}
+
+.ble-device-connecting-loader {
+	--d: 2vw;
+	--t: 0.7s;
+	width: var(--d);
+	height: var(--d);
+	position: relative;
+	color: var(--clr-ui2);
+	box-sizing: border-box;
+	animation: loader-rotation var(--t) linear infinite;
+}
+.ble-device-connecting-loader::after,
+.ble-device-connecting-loader::before {
+	content: '';  
+	box-sizing: border-box;
+	position: absolute;
+	width: calc(var(--d) / 2);
+	height: calc(var(--d) / 2);
+	top: 0;
+	background-color: var(--clr-ui2);
+	border-radius: 50%;
+	animation: loader-scale50 var(--t) infinite ease-in-out;
+}
+.ble-device-connecting-loader::before {
+	top: auto;
+	bottom: 0;
+	background-color: var(--clr-ui2);
+	animation-delay: calc(var(--t) / 2);
+}
+
+@keyframes loader-rotation {
+	0% {transform: rotate(0deg);}
+	100% {transform: rotate(360deg);}
+} 
+@keyframes loader-scale50 {
+	0%, 100% {transform: scale(0);}
+	50% {transform: scale(1);}
+}
+
+
+
+/* Calibrate */
+#calib-screen {
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	background: var(--clr-ui1);
+}
+
+#calib-screen .screen-title {
+	align-items: center;
+}
+#calib-screen .screen-title div {
+	width: calc(0.85 * var(--font-size));
+	height: calc(0.85 * var(--font-size));
+	margin: 0 0.35em;
+	background: var(--clr-center);
+	border: var(--border-width) solid var(--clr-ui2);
+	border-radius: 50%;
+}
+
+
+
+/* States */
+[data-scanning="false"] #ble-devices-loader {display: none;}
+
+[data-connection="none"] .current-screen .ble-device {pointer-events: all;}
+.ble-device:not(.connected-device) .ble-device-not-connected {opacity: 1;}
+[data-connection="none"] .ble-device:hover {
+	background: var(--clr-ui3);
+	transform: scale(1.05);
+}
+
+[data-connection="loading"] .connected-device .ble-device-connecting-loader {opacity: 1;}
+
+[data-connection="connected"] .connected-device .ble-device-connected {opacity: 1;}
+[data-connection="connected"] #ble-icon {opacity: 1;}

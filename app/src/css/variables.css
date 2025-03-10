@@ -1,0 +1,12 @@
+:root {
+	--clr-ui1: black;
+	--clr-ui2: white;
+	--clr-ui3: #222;
+	--clr-ui4: #666;
+
+	--clr-dpad: black;
+	--clr-center: #00bf4a;
+	--clr-back: #de4037;
+
+	--border-width: 1.5px;
+}

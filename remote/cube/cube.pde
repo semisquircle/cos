@@ -1,8 +1,8 @@
 import processing.serial.*;
 
 Serial myPort;
-float xAngle = 0, yAngle = 0, zAngle = 0;
-float xOffset = 0, yOffset = 0, zOffset = 0;
+float yaw = 0, pitch = 0, roll = 0;
+float yawOffset = 0, pitchOffset = 0, rollOffset = 0;
 boolean calibrated = false;
 
 void setup() {
@@ -13,11 +13,11 @@ void setup() {
 
 void keyPressed() {
   if (key == ' ') { // Press spacebar to calibrate
-    xOffset = xAngle;
-    yOffset = yAngle;
-    zOffset = zAngle;
+    yawOffset = yaw;
+    pitchOffset = pitch;
+    rollOffset = roll;
     calibrated = true;
-    println("Calibrated: X Offset = " + xOffset + ", Y Offset = " + yOffset + ", Z Offset = " + zOffset);
+    println("Calibrated: X Offset = " + yawOffset + ", Y Offset = " + pitchOffset + ", Z Offset = " + rollOffset);
   }
 }
 
@@ -27,9 +27,9 @@ void serialEvent(Serial myPort) {
     JSONObject json = parseJSONObject(inString);
     JSONObject imu = json.getJSONObject("imu");
     if (imu != null) {
-      xAngle = imu.getFloat("pitch");
-      yAngle = imu.getFloat("yaw");
-      zAngle = -1.0 * imu.getFloat("roll");
+      yaw = imu.getFloat("yaw");
+      pitch = imu.getFloat("pitch");
+      roll = -1.0 * imu.getFloat("roll");
     }
   }
 }
@@ -39,9 +39,9 @@ void draw() {
   lights();
   
   translate(width / 2, height / 2);
-  rotateX(radians(xAngle - xOffset));
-  rotateY(radians(yAngle - yOffset));
-  rotateZ(radians(zAngle - zOffset));
+  rotateY(radians(yaw - yawOffset));
+  rotateX(radians(pitch - pitchOffset));
+  rotateZ(radians(roll - rollOffset));
   
   fill(0, 200, 255);
   stroke(255);
