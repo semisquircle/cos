@@ -1,14 +1,22 @@
-// Motion events
+// Calibration
 var isRecentered = false;
 var isRecentering = false;
 var justRecentered = false;
 
+// Euler angles
 var remote;
 var yaw, pitch, roll;
 var yawOffset, pitchOffset, rollOffset;
-var yawDelta = 8;
-var pitchDelta = 8;
-var rollDelta = 120;
+const YAW_DELTA = 8;
+const PITCH_DELTA = 8;
+
+// Shake
+const EARTH_G = 9.80665;
+var ax, ay, az;
+var lastAx, lastAy, lastAz;
+const SHAKE_THRESHOLD = 20;
+const SHAKE_TIMEOUT = 200;
+var lastShakeTime = 0;
 
 
 
@@ -17,7 +25,7 @@ function recenter() {
 	isRecentering = false;
 	justRecentered = true;
 
-	pitchOffset = pitch - pitchDelta;
+	pitchOffset = pitch - PITCH_DELTA;
 	yawOffset = yaw;
 	rollOffset = roll;
 
@@ -27,71 +35,79 @@ function recenter() {
 var Buttons = {
 	stack: [],
 
-	downStart: 0,
-	downTime: 0,
+	selectStartTime: 0,
+	selectHoldTime: 0,
 	recenterTimer: null,
 	recenterTime: 700,
 
-	add: function(el) {
-		this.stack.unshift(el);
+	add: function(btn) {
+		this.stack.unshift(btn);
 	},
-	remove: function(key) {
-		let index = this.stack.indexOf(key);
+	remove: function(btn) {
+		let index = this.stack.indexOf(btn);
 		if (index > -1) this.stack.splice(index, 1);
 	},
 	top: function() {
 		if (this.stack.length > 0) return this.stack[0];
 		return "";
 	},
-	isPressing: function(key) {
-		return this.stack.includes(key);
-	},
-	dir: function(code) {
-		return Object.keys(this.dpad).find(dir => this.dpad[dir] === code)
+	isPressing: function(btn) {
+		return this.stack.includes(btn);
 	}
 }
 
 
 
 listen("arduino-update", function(data) {
-	console.log(data.payload);
-	/* let newRemote = JSON.parse(data.payload);
+	let newRemote = JSON.parse(data.payload);
 	if (remote === undefined) remote = structuredClone(newRemote);
 
+	//* Euler angles
+	yaw = newRemote.euler.yaw;
+	pitch = newRemote.euler.pitch;
 
-	//* IMU
-	yaw = newRemote.imu.yaw;
-	pitch = newRemote.imu.pitch;
-	roll = newRemote.imu.roll;
+	// Accelerometer
+	ax = newRemote.accel.x;
+	ay = newRemote.accel.y;
+	az = newRemote.accel.z - EARTH_G;
 
+	// IMU stuff
 	if (isRecentered) {
 		// Recenter angles based on body frame
 		let recenteredYaw = ((yaw - yawOffset + 180) % 360 + 360) % 360 - 180;
 		let recenteredPitch = Math.max(-90, Math.min(90, pitch - pitchOffset));
-		let recenteredRoll = ((roll - rollOffset + 180) % 360 + 360) % 360 - 180;
 
 		// Calculate relative row
 		let numCols = currentKeyboard[currentSquircle.row].length;
-		let colRaw = Math.round(recenteredYaw / yawDelta + (numCols / 2));
+		let colRaw = Math.round(recenteredYaw / YAW_DELTA + (numCols / 2));
 		let newCol = Math.max(0, Math.min(colRaw, numCols - 1));
 
 		// Calculate relative column
 		let numRows = currentKeyboard.length;
-		let rowRaw = Math.round(recenteredPitch / pitchDelta + (numRows / 2));
+		let rowRaw = Math.round(recenteredPitch / PITCH_DELTA + (numRows / 2));
 		let newRow = Math.max(0, Math.min(rowRaw, numRows - 1));
-	
-		// Calculate and apply character/accent index
-		let newCharIndex = Math.round(recenteredRoll / rollDelta);
-		changeCharIndex(newCharIndex);
 
-		if (
-			(newRow !== currentSquircle.row || newCol !== currentSquircle.col) &&
-			(newCharIndex == 0)
-		) {
+		if (newRow !== currentSquircle.row || newCol !== currentSquircle.col) {
 			currentSquircle.row = newRow;
 			currentSquircle.col = newCol;
 			changeSquircle();
 		}
+
+		// Shake detection
+		let axDelta = ax - lastAx;
+		let ayDelta = ay - lastAy;
+		let azDelta = az - lastAz;
+		let aChange = Math.sqrt(axDelta * axDelta + ayDelta * ayDelta + azDelta * azDelta);
+		let shakeTime = Date.now();
+
+		if (aChange > SHAKE_THRESHOLD && shakeTime - lastShakeTime > SHAKE_TIMEOUT) {
+			nextDiacritic();
+			lastShakeTime = shakeTime;
+		}
+
+		lastAx = ax;
+		lastAy = ay;
+		lastAz = az;
 	}
 
 
@@ -141,11 +157,12 @@ listen("arduino-update", function(data) {
 	//* Select button
 	if (remote.btns.select !== newRemote.btns.select) {
 		// On select button down
-		if (newRemote.btns.select == true) {
-			Buttons.downStart = Date.now();
+		if (newRemote.btns.select == true && !Buttons.isPressing("select")) {
+			Buttons.add("select");
+			Buttons.selectStartTime = Date.now();
 			Buttons.recenterTimer = setInterval(function() {
-				Buttons.downTime = Date.now() - Buttons.downStart;
-				if (Buttons.downTime > Buttons.recenterTime) {
+				Buttons.selectHoldTime = Date.now() - Buttons.selectStartTime;
+				if (Buttons.selectHoldTime >= Buttons.recenterTime) {
 					clearInterval(Buttons.recenterTimer);
 					recenter();
 					if (currentScreen == "calib") changeScreen("keyboard");
@@ -155,8 +172,8 @@ listen("arduino-update", function(data) {
 
 		// On select button up
 		else {
-			if (!justRecentered) toggleCase();
-			
+			if (!justRecentered) nextCase();
+			Buttons.remove("select");
 			clearInterval(Buttons.recenterTimer);
 			isRecentering = false;
 			justRecentered = false;
@@ -164,12 +181,5 @@ listen("arduino-update", function(data) {
 	}
 
 
-	remote = structuredClone(newRemote); */
-});
-
-$(document).on("keydown", function(e) {
-	if (e.code == "Space") {
-		recenter();
-		if (currentScreen == "calib") changeScreen("keyboard");
-	}
+	remote = structuredClone(newRemote);
 });

@@ -27,7 +27,7 @@
 	align-items: center;
 	width: var(--dimension);
 	height: var(--dimension);
-	cursor: pointer;
+	/* cursor: pointer; */
 	pointer-events: none;
 }
 .squircle-btn, .squircle-btn * {transition: all 0.1s;}
@@ -138,7 +138,7 @@
 	color: var(--clr-ui2);
 	border: var(--border-width) solid var(--clr-ui2);
 	border-radius: 1vw;
-	cursor: pointer;
+	/* cursor: pointer; */
 	transition: all 0.1s;
 }
 
@@ -207,11 +207,12 @@
 	align-items: center;
 }
 #calib-screen .screen-title div {
+	--hold-percent: 0%;
 	width: calc(0.85 * var(--font-size));
 	height: calc(0.85 * var(--font-size));
 	margin: 0 0.35em;
-	background: var(--clr-center);
-	border: var(--border-width) solid var(--clr-ui2);
+	background: conic-gradient(var(--clr-ui2) var(--hold-percent), var(--clr-center) var(--hold-percent));
+	border: 2px solid var(--clr-ui2);
 	border-radius: 50%;
 }
 

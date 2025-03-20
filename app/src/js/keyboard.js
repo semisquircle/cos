@@ -21,7 +21,7 @@ function generateKeyboard() {
 			let squircle = row[s];
 			let squircleEl = getSvg("img/squircles/systems/straight.svg");
 			squircleEl.attr("data-col", s);
-			squircleEl.attr("data-current-char-index", "0");
+			squircleEl.attr("data-current-diacritic", "0");
 
 			for (let d = 0; d < squircle.length; d++) {
 				let dir = squircle[d];
@@ -37,6 +37,8 @@ function generateKeyboard() {
 						let char = cayse[ch];
 						let svg = "";
 						let ctrl = ctrlKeys[char];
+						let diacriticCount = cayse.length;
+						if (diacriticCount > totalDiacriticCount) totalDiacriticCount = diacriticCount;
 	
 						if (char !== " ") {
 							if (ctrl !== undefined) {
@@ -46,7 +48,7 @@ function generateKeyboard() {
 								svg = getSvg(`img/glyphs/${currentLang}/${char.charCodeAt(0)}.svg`);
 								svg.addClass("squircle-char");
 								if (caseCount > 1) svg.attr("data-case", c);
-								svg.attr("data-char-index", ch);
+								svg.attr("data-diacritic", ch);
 								svg.attr("data-char", char);
 							}
 						}
@@ -69,7 +71,6 @@ function changeSquircle() {
 	let currentSquircleEl = $(`[data-row="${currentSquircle.row}"] [data-col="${currentSquircle.col}"]`);
 
 	$(".squircle").attr("data-bump-dir", "");
-	// $(".squircle").attr("data-current-char-index", 0);
 	$(".squircle").removeClass("current-squircle");
 
 	currentSquircleEl.addClass("current-squircle");
@@ -80,11 +81,12 @@ function type(char) {
 	$("#keyboard-input-text").text(text + char);
 }
 
-function toggleCase() {
+function nextCase() {
 	currentCase = (currentCase + 1) % totalCaseCount;
 	$("#keyboard-screen").attr("data-current-case", currentCase);
 }
 
-function changeCharIndex(charIndex) {
-	$(`[data-row="${currentSquircle.row}"] [data-col="${currentSquircle.col}"]`).attr("data-current-char-index", charIndex);
+function nextDiacritic() {
+	currentDiacritic = (currentDiacritic + 1) % totalDiacriticCount;
+	$("#keyboard-screen").attr("data-current-diacritic", currentDiacritic);
 }

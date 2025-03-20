@@ -18,10 +18,14 @@ var totalRows = 0;
 var totalCols = 0;
 var currentSquircle = {row: 0, col: 0};
 
+var currentDiacritic = 0;
+var totalDiacriticCount = 0;
+
 const dirNames = ["left", "up", "right", "down"];
 
 
 
+// Asynchronous SVG injecting
 function getSvg(path) {
 	let foo;
 	$.ajax({
@@ -36,6 +40,9 @@ function getSvg(path) {
 	return foo;
 }
 
+
+
+// Squircles :-)
 var squircleBtnBackEl = getSvg("img/squircles/outlines/straight.svg");
 var squircleBtn = $(`
 	<div class="squircle-btn">
@@ -46,6 +53,7 @@ var squircleBtn = $(`
 
 
 
+// Changing screens
 var currentScreen = "";
 function changeScreen(screen) {
 	currentScreen = screen;
@@ -55,7 +63,17 @@ function changeScreen(screen) {
 	}, 500);
 }
 
+function nextScreen() {
+	let nextScreenEl = $(".current-screen").next().filter(".screen");
+	$(".screen").removeClass("current-screen");
+	setTimeout(function() {
+		nextScreenEl.addClass("current-screen");
+	}, 500);
+}
 
+
+
+// On load
 $(document).ready(async function() {
 	invoke("disconnect_ble_device");
 
@@ -64,4 +82,14 @@ $(document).ready(async function() {
 	});
 
 	generateLangOptions();
+});
+
+
+
+// Dev stuff
+$(document).on("keydown", function(e) {
+	if (e.code == "Space") {
+		recenter();
+		nextScreen();
+	}
 });

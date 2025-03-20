@@ -6,6 +6,7 @@
 	padding: 25px 30px;
 	outline: none;
 	z-index: 5000;
+	cursor: none;
 }
 
 #layout-content {
@@ -166,13 +167,13 @@
 
 
 /* Squircle states */
-[data-case][data-char-index] {opacity: 0;}
-[data-current-case="0"] [data-current-char-index="0"] [data-case="0"][data-char-index="0"],
-[data-current-case="0"] [data-current-char-index="1"] [data-case="0"][data-char-index="1"],
-[data-current-case="0"] [data-current-char-index="2"] [data-case="0"][data-char-index="2"],
-[data-current-case="1"] [data-current-char-index="0"] [data-case="1"][data-char-index="0"],
-[data-current-case="1"] [data-current-char-index="1"] [data-case="1"][data-char-index="1"],
-[data-current-case="1"] [data-current-char-index="2"] [data-case="1"][data-char-index="2"]
+[data-case][data-diacritic] {opacity: 0;}
+[data-current-case="0"][data-current-diacritic="0"] [data-case="0"][data-diacritic="0"],
+[data-current-case="0"][data-current-diacritic="1"] [data-case="0"][data-diacritic="1"],
+[data-current-case="0"][data-current-diacritic="2"] [data-case="0"][data-diacritic="2"],
+[data-current-case="1"][data-current-diacritic="0"] [data-case="1"][data-diacritic="0"],
+[data-current-case="1"][data-current-diacritic="1"] [data-case="1"][data-diacritic="1"],
+[data-current-case="1"][data-current-diacritic="2"] [data-case="1"][data-diacritic="2"]
 {opacity: 1;}
 
 .current-squircle {
@@ -189,7 +190,7 @@
 [data-bump-dir="right"] [data-dir="right"],
 [data-bump-dir="up"] [data-dir="up"],
 [data-bump-dir="down"] [data-dir="down"] {
-	--bg: var(--clr-ui2);
+	fill: var(--clr-ui2);
 	--fc: var(--clr-ui3);
 }
 

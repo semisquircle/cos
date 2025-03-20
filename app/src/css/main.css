@@ -12,7 +12,7 @@ body {
 	margin: 0;
 	background: var(--clr-ui1);
 	color: var(--clr-ui2);
-	/* cursor: url("../img/cursor.png") 15 15, auto; */
+	cursor: url("../img/cursor2.png") 20 20, auto;
 }
 
 * {
