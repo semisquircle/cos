@@ -16,8 +16,8 @@ float deltat;
 float yaw, pitch, roll;
 
 const float EARTH_G = 9.80665;		// m/s²
-const float M_FIELD = 43.623215;	// μT
-const float M_DEC = -8.658088;		// deg
+const float M_FIELD = 43.636392;	// μT
+const float M_DEC = -8.661414;		// deg
 
 const float M_HARD[3] = {-30.115516, 49.942568, -25.54026};
 const float M_SOFT[3][3] = {
@@ -33,7 +33,7 @@ mLink mLink;
 
 // Calibration functions
 void calibrateGyro() {
-	// Serial.println("Calibrating gyroscope...");
+	Serial.println("Calibrating gyroscope...");
 	const int numSamples = 2000;
 	float sumX = 0, sumY = 0, sumZ = 0;
 
@@ -52,7 +52,7 @@ void calibrateGyro() {
 	gyOffset = sumY / actualSamples;
 	gzOffset = sumZ / actualSamples;
 
-	/* Serial.print("Finished, ");
+	Serial.print("Finished, ");
 	Serial.print(actualSamples);
 	Serial.println(" samples");
 
@@ -62,7 +62,7 @@ void calibrateGyro() {
 	Serial.print(gyOffset);
 	Serial.print(", Z: ");
 	Serial.print(gzOffset);
-	Serial.println(); */
+	Serial.println();
 }
 
 void applyMagIron(float& mx, float& my, float& mz) {
@@ -92,12 +92,6 @@ void applyMagDec(float& mx, float& my) {
 
 	mx = mxCorrected;
 	my = myCorrected;
-}
-
-
-// Converts 1 or 0 to "true" or "false"
-String boolToString(bool value) {
-	return value ? "true" : "false";
 }
 
 
@@ -158,6 +152,12 @@ String compileData() {
 	dpad["down"] = mLink.bPad_RightState(I2C_ADD);
 	btns["select"] = mLink.bPad_SelectState(I2C_ADD);
 	btns["back"] = mLink.bPad_BackState(I2C_ADD);
+	/* dpad["left"] = false;
+	dpad["up"] = false;
+	dpad["right"] = false;
+	dpad["down"] = false;
+	btns["select"] = false;
+	btns["back"] = false; */
 
 	// Return JSON as string
 	String output;
@@ -167,16 +167,16 @@ String compileData() {
 
 
 void setup() {
-	// Serial.begin(115200);
-	// while (!Serial);
+	Serial.begin(115200);
+	while (!Serial);
 
 	if (!BLE.begin()) {
-		// Serial.println("Failed to initialize BLE!");
+		Serial.println("Failed to initialize BLE!");
 		while (1);
 	}
 
 	if (!IMU.begin()) {
-		// Serial.println("Failed to initialize IMU!");
+		Serial.println("Failed to initialize IMU!");
 		while (1);
 	}
 
@@ -191,7 +191,7 @@ void setup() {
 
 	mLink.init();
 
-	// Serial.println("Bluetooth device active, waiting for connections...");
+	Serial.println("Bluetooth device active, waiting for connections...");
 }
 
 
@@ -199,18 +199,18 @@ void loop() {
 	BLEDevice central = BLE.central();
 
 	if (central) {
-		// Serial.print("Connected to central: ");
-		// Serial.println(central.address());
+		Serial.print("Connected to central: ");
+		Serial.println(central.address());
 
 		while (central.connected()) {
 			if (IMU.gyroscopeAvailable() && IMU.accelerationAvailable() && IMU.magneticFieldAvailable()) {
 				String json = compileData();
-				// Serial.println(json);
+				Serial.println(json);
 				bleCharacteristic.writeValue(json);
 			}
 		}
 
-		// Serial.print("Disconnected from central: ");
-		// Serial.println(central.address());
+		Serial.print("Disconnected from central: ");
+		Serial.println(central.address());
 	}
 }

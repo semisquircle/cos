@@ -1,3 +1,13 @@
-<svg viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
-	<path d="M 100,50 C 100,90 90,100 50,100 10,100 0,90 0,50 0,10 10,0 50,0 90,0 100,10 100,50"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 100 100"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <path
+     id="path1"
+     d="M 50 0 C 10.00008 0 0 10.00008 0 50 L 0 100 L 100 100 L 100 50 C 100 10.00008 89.99992 0 50 0 z " />
 </svg>

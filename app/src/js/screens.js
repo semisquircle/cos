@@ -54,14 +54,16 @@ $("#orient-option-container").on("click", ".squircle-btn", async function() {
 	generateKeyboard();
 
 	// Before scanning
-	let btIcon = getSvg("img/bluetooth.svg");
+	/* let btIcon = getSvg("img/bluetooth.svg");
 	$("#ble-icon").html(btIcon);
 	changeScreen("ble");
 	bleDevices = await invoke("scan_ble_devices");
 
 	// After scanning
 	generateBLEDevices();
-	$("#ble-screen").attr("data-scanning", false);
+	$("#ble-screen").attr("data-scanning", false); */
+	changeScreen("calib");
+	$("body").attr("data-connection", "connected");
 });
 
 

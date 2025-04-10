@@ -7,8 +7,9 @@ var justRecentered = false;
 var remote;
 var yaw, pitch, roll;
 var yawOffset, pitchOffset, rollOffset;
-const YAW_DELTA = 8;
-const PITCH_DELTA = 8;
+const YAW_DELTA = 12;
+const PITCH_DELTA = 12;
+const ROLL_DELTA = 12;
 
 // Shake
 const EARTH_G = 9.80665;
@@ -25,8 +26,8 @@ function recenter() {
 	isRecentering = false;
 	justRecentered = true;
 
-	pitchOffset = pitch - PITCH_DELTA;
 	yawOffset = yaw;
+	pitchOffset = pitch;
 	rollOffset = roll;
 
 	console.log("Recentered!");
@@ -65,27 +66,24 @@ listen("arduino-update", function(data) {
 	//* Euler angles
 	yaw = newRemote.euler.yaw;
 	pitch = newRemote.euler.pitch;
-
-	// Accelerometer
-	ax = newRemote.accel.x;
-	ay = newRemote.accel.y;
-	az = newRemote.accel.z - EARTH_G;
+	roll = newRemote.euler.roll;
 
 	// IMU stuff
 	if (isRecentered) {
 		// Recenter angles based on body frame
 		let recenteredYaw = ((yaw - yawOffset + 180) % 360 + 360) % 360 - 180;
 		let recenteredPitch = Math.max(-90, Math.min(90, pitch - pitchOffset));
+		let recenteredRoll = ((roll - rollOffset + 180) % 360 + 360) % 360 - 180;
 
 		// Calculate relative row
-		let numCols = currentKeyboard[currentSquircle.row].length;
-		let colRaw = Math.round(recenteredYaw / YAW_DELTA + (numCols / 2));
-		let newCol = Math.max(0, Math.min(colRaw, numCols - 1));
-
-		// Calculate relative column
 		let numRows = currentKeyboard.length;
 		let rowRaw = Math.round(recenteredPitch / PITCH_DELTA + (numRows / 2));
 		let newRow = Math.max(0, Math.min(rowRaw, numRows - 1));
+
+		// Calculate relative column
+		let numCols = currentKeyboard[currentSquircle.row].length;
+		let colRaw = Math.round(recenteredYaw / YAW_DELTA + (numCols / 2));
+		let newCol = Math.max(0, Math.min(colRaw, numCols - 1));
 
 		if (newRow !== currentSquircle.row || newCol !== currentSquircle.col) {
 			currentSquircle.row = newRow;
@@ -94,7 +92,7 @@ listen("arduino-update", function(data) {
 		}
 
 		// Shake detection
-		let axDelta = ax - lastAx;
+		/* let axDelta = ax - lastAx;
 		let ayDelta = ay - lastAy;
 		let azDelta = az - lastAz;
 		let aChange = Math.sqrt(axDelta * axDelta + ayDelta * ayDelta + azDelta * azDelta);
@@ -107,7 +105,7 @@ listen("arduino-update", function(data) {
 
 		lastAx = ax;
 		lastAy = ay;
-		lastAz = az;
+		lastAz = az; */
 	}
 
 
@@ -127,6 +125,14 @@ listen("arduino-update", function(data) {
 	
 						case "backspace":
 							$("#keyboard-input-text").text((_, txt) => txt.slice(0, -1));
+							break;
+						
+						case "trash":
+							$("#keyboard-input-text").empty();
+							break;
+						
+						case "enter":
+							$("#keyboard-input-text").empty();
 							break;
 	
 						default:

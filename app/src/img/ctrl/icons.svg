@@ -26,11 +26,11 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="pt"
-     inkscape:zoom="2.1089527"
-     inkscape:cx="73.73328"
-     inkscape:cy="20.152183"
-     inkscape:window-width="1440"
-     inkscape:window-height="783"
+     inkscape:zoom="3.3862175"
+     inkscape:cx="59.358266"
+     inkscape:cy="86.970196"
+     inkscape:window-width="1920"
+     inkscape:window-height="965"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="1"
@@ -45,25 +45,7 @@
      x="5"
      y="5" />
   <path
-     id="rect1"
-     style="fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:7.50001;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
-     d="M 38.332027,21.666992 5.0000005,54.999023 38.332027,88.333008 H 105 V 21.666992 Z"
-     inkscape:label="back" />
-  <rect
-     style="display:inline;fill:#2eff00;fill-opacity:1;stroke:none;stroke-width:7.5;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:stroke fill markers"
-     id="rect2"
-     width="66.667976"
-     height="66.666016"
-     x="38.332027"
-     y="21.666992" />
-  <path
-     style="fill:none;stroke:none;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     d="m 56.666016,40 30,30.000001"
-     id="path1"
-     inkscape:label="x1" />
-  <path
-     style="fill:none;stroke:none;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     d="m 86.666016,40 -30,30.000001"
-     id="path1-1"
-     inkscape:label="x2" />
+     style="fill:#000000;stroke:none;stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+     d="M 5,55 38.333335,88.333335 105,21.666665"
+     id="path1" />
 </svg>

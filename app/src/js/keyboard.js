@@ -5,6 +5,12 @@ const ctrlKeys = {
 	},
 	"\u232B": {
 		name: "backspace"
+	},
+	"\u1F5D": {
+		name: "trash"
+	},
+	"\u2424": {
+		name: "enter"
 	}
 }
 
@@ -90,3 +96,14 @@ function nextDiacritic() {
 	currentDiacritic = (currentDiacritic + 1) % totalDiacriticCount;
 	$("#keyboard-screen").attr("data-current-diacritic", currentDiacritic);
 }
+
+
+
+var currentPhrase = 0;
+const phrases = [
+	"the quick brown fox jumps over the 75 lazy dogs",
+	"pack my 68 boxes with five dozen liquor jugs",
+	"sphinx of black quartz judge my 11 vows",
+	"the five of 23 boxing wizards jump quickly",
+	"jackdaws love my big sphinx of 94 quartz"
+];
